@@ -15,15 +15,15 @@ void line_info(int num, const std::string& v) {
 }
 #endif
 
-#define dbg(...)                                                                                   \
-  line_info(__LINE__, #__VA_ARGS__);                                                               \
-  dbg1(__VA_ARGS__)
+#define dbg(...) (line_info(__LINE__, #__VA_ARGS__), dbg1(__VA_ARGS__))
 // #define dbgR(...) lineInfo(__LINE__, #__VA_ARGS__), dbg2(__VA_ARGS__)
 #define dbg_proj(p, ...) (line_info(__LINE__, #__VA_ARGS__ " proj"), dbg3(p, __VA_ARGS__))
 #define dbg_rproj(p, ...) (line_info(__LINE__, #__VA_ARGS__ " proj"), dbg4(p, __VA_ARGS__))
+
 inline void nline() {
   std::cerr << '\n' << std::flush;
 }
+
 inline void bar() {
   nline();
   std::cerr << "--------------------------------------------------------\n" << std::flush;
@@ -46,9 +46,13 @@ inline void start_clock(const std::source_location loc = std::source_location::c
 #ifdef __cpp_lib_source_location
 #ifdef __cpp_lib_print
 inline void end_clock(const std::source_location loc = std::source_location::current()) {
-  std::println(std::cerr, "Lines {}-{}: {}", line_start, loc.line(),
-               std::chrono::duration_cast<std::chrono::milliseconds>(
-                 std::chrono::high_resolution_clock::now() - time_start));
+  std::println(
+    std::cerr,
+    "Lines {}-{}: {}",
+    line_start,
+    loc.line(),
+    std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - time_start)
+  );
 }
 #else
 void end_clock(const std::source_location loc = std::source_location::current()) {
