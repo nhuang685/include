@@ -16,6 +16,8 @@ template <class T, class U> std::ostream& operator<<(std::ostream& out, const st
 template <class T, class U> std::ostream& operator<<(std::ostream& out, const std::unordered_multimap<T, U>& v);
 
 template <class... Args> std::ostream& operator<<(std::ostream& out, std::priority_queue<Args...> pq);
+template <class... Args> std::ostream& operator<<(std::ostream& out, std::stack<Args...> pq);
+template <class... Args> std::ostream& operator<<(std::ostream& out, std::queue<Args...> pq);
 
 template <class T> std::ostream& printRange(std::ostream& out, const T& begin, const T& end) {
   out << "{";
@@ -106,7 +108,30 @@ template <class... Args> std::ostream& operator<<(std::ostream& out, std::priori
   out << "}";
   return out;
 }
-
+template <class... Args> std::ostream& operator<<(std::ostream& out, std::stack<Args...> pq) {
+  out << "{";
+  while (not pq.empty()) {
+    out << pq.top();
+    pq.pop();
+    if (not pq.empty()) {
+      out << ", ";
+    }
+  }
+  out << "}";
+  return out;
+}
+template <class... Args> std::ostream& operator<<(std::ostream& out, std::queue<Args...> pq) {
+  out << "{";
+  while (not pq.empty()) {
+    out << pq.front();
+    pq.pop();
+    if (not pq.empty()) {
+      out << ", ";
+    }
+  }
+  out << "}";
+  return out;
+}
 template <class T> void dbg1(const T& t) { std::cerr << t << '\n'; }
 // template <class T> void dbg2(const T &t) {
 //   printRange(std::cerr, t.begin(), t.end());
