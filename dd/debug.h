@@ -1,9 +1,9 @@
 #include "bits/stdc++.h"
-// #if defined(__cpp_lib_print) && defined(__cpp_lib_format_ranges)
-// #include "debug23.h"
-// #else
+#if defined(__cpp_lib_print) && defined(__cpp_lib_format_ranges)
+#include "debug23.h"
+#else
 #include "debug20.h"
-// #endif
+#endif
 
 #ifdef __cpp_lib_print
 inline void line_info(int num, const std::string& v) { std::print(std::cerr, "Line {}: [{}] - ", num, v); }
