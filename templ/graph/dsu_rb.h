@@ -1,5 +1,5 @@
-#ifndef TEMPL_DSU_RB_H
-#define TEMPL_DSU_RB_H
+#ifndef TEMPL_DSU_H
+#define TEMPL_DSU_H
 
 #include <bits/stdc++.h>
 #include "templ/utility/inf.h"
@@ -47,4 +47,4 @@ struct DSU {
   int count() const { return cnt; }
 };
 
-#endif // TEMPL_DSU_RB_H
+#endif // TEMPL_DSU_H

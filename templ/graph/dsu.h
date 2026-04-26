@@ -4,18 +4,18 @@
 #include <bits/stdc++.h>
 
 struct DSU {
-  std::vector<int> val;
+  std::vector<int> vals;
   int cnt{};
   DSU() = default;
-  explicit DSU(int n) : val(n, -1), cnt(n) {}
-  int find(int i) { return val[i] < 0 ? i : (val[i] = find(val[i])); }
+  explicit DSU(int n) : vals(n, -1), cnt(n) {}
+  int find(int i) { return vals[i] < 0 ? i : (vals[i] = find(vals[i])); }
   bool unite(int u, int v) {
     u = find(u), v = find(v);
     if (u == v)
       return false;
-    if (val[u] > val[v])
+    if (vals[u] > vals[v])
       std::swap(u, v);
-    val[u] += val[v];
+    vals[u] += vals[v];
     vals[v] = u;
     --cnt;
     return true;
