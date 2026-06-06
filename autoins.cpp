@@ -12,6 +12,8 @@
 #include <set>
 #include <string>
 
+const std::vector include_dir{"", "include/", "include/ac-library/", "include/testlib/"};
+
 void expand(const std::string& current_file, std::ofstream& output, std::set<std::string>& visited,
             const bool angled = false) {
   if (visited.contains(current_file)) {
@@ -27,9 +29,12 @@ void expand(const std::string& current_file, std::ofstream& output, std::set<std
     return;
   }
 
-  std::ifstream input(current_file);
-  if (!input.is_open())
-    input.open("include/" + current_file);
+  std::ifstream input;
+  for (std::string dir : include_dir) {
+    input.open(dir + current_file);
+    if (input.is_open())
+      break;
+  }
   if (!input.is_open()) {
     std::println(std::cerr, "Cannot access {:?}", current_file);
     std::println(output, "#include \"{}\"", current_file);

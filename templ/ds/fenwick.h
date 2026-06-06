@@ -13,14 +13,14 @@ template <class T> struct Fenwick {
       vals[i] += val;
   }
   T sum(int r) const {
-    T ans = 0;
+    T ans{0};
     for (++r; r > 0; r -= (r & -r))
       ans += vals[r];
     return ans;
   }
   T query(int l, int r) const {
     if (l > r)
-      return 0;
+      return T{0};
     return sum(r) - sum(l - 1);
   }
   template <class Compare> int lower_bound(int val, Compare comp) const {
@@ -35,9 +35,7 @@ template <class T> struct Fenwick {
     }
     return pos;
   }
-  int lower_bound(int val) const {
-    return lower_bound(val, std::less{});
-  }
+  int lower_bound(int val) const { return lower_bound(val, std::less{}); }
   template <class Compare> int upper_bound(int val, Compare comp) const {
     const int lg = std::bit_width<unsigned int>(len);
     int pos = 0;
@@ -50,9 +48,7 @@ template <class T> struct Fenwick {
     }
     return pos;
   }
-  int upper_bound(int val) const {
-    return upper_bound(val, std::less{});
-  }
+  int upper_bound(int val) const { return upper_bound(val, std::less{}); }
 };
 
 #endif
