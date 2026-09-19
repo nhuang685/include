@@ -166,8 +166,8 @@ namespace seg {
         int n{}, len{}, h{};
         std::vector<S> d;
         std::vector<F> la;
-        int comp_sub(int i) const { return len >> internal::log(i); }
-        S op(const S& lhs, const S& rhs, int sub1, int sub2) {
+        int comp_sub(int i) const { return len >> internal::log((u32)i); }
+        static S op(const S& lhs, const S& rhs, int sub1, int sub2) {
             if constexpr (std::is_invocable_v<decltype(op_), S, S, int, int>)
                 return op_(lhs, rhs, sub1, sub2);
             else

@@ -8,11 +8,11 @@ using db = long double;
 [[maybe_unused]] constexpr db PI = std::numbers::pi_v<db>;
 constexpr db EPS = 1e-9;
 template <class T, class U> constexpr bool eq(const T& a, const U& b) {
-  if constexpr (std::is_floating_point_v<typename std::common_type_t<T, U>>) {
-    return std::abs(a - b) < EPS;
-  } else {
-    return a == b;
-  }
+    if constexpr (std::is_floating_point_v<typename std::common_type_t<T, U>>) {
+        return std::abs(a - b) < EPS;
+    } else {
+        return a == b;
+    }
 }
 
 #endif // TEMPL_LDOUBLE_H

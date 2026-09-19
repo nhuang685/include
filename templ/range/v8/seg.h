@@ -12,7 +12,7 @@ namespace seg {
         explicit Seg(int n_) : Seg(std::vector<S>(n_, e())) {}
         template <class U>
         explicit Seg(const std::vector<U>& a)
-            : n((int)a.size()), len((int)internal::bit_ceil((u32)(n))), d(2 * len, e()) {
+            : n((int)a.size()), len((int)internal::bit_ceil((u32)n)), d(2 * len, e()) {
             for (int i = 0; i < n; ++i)
                 d[len + i] = S(a[i]);
             for (int i = len - 1; i >= 1; --i)
@@ -116,8 +116,8 @@ namespace seg {
       private:
         int n{}, len{};
         std::vector<S> d;
-        int comp_sub(int i) const { return len >> internal::log(i); }
-        S op(const S& lhs, const S& rhs, int sub1, int sub2) {
+        int comp_sub(int i) const { return len >> internal::log((u32)i); }
+        static S op(const S& lhs, const S& rhs, int sub1, int sub2) {
             if constexpr (std::is_invocable_v<decltype(op_), S, S, int, int>)
                 return op_(lhs, rhs, sub1, sub2);
             else
