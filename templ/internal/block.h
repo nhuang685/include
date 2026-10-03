@@ -15,8 +15,14 @@ template <class T> struct Block {
             free.pop_back();
             return Block{i};
         }
-        vals.emplace_back(std::forward<Args>(args)...);
+        vals.push_back(T{std::forward<Args>(args)...});
         return Block{(int)vals.size() - 1};
+    }
+    static Block clone_create(Block b) {
+        if (!b)
+            return make();
+        T content = *b;
+        return make(std::move(content));
     }
     T* operator->() { return &vals[ind]; }
     const T* operator->() const { return &vals[ind]; }
@@ -25,11 +31,11 @@ template <class T> struct Block {
     T* get() { return &vals[ind]; }
     const T* get() const { return &vals[ind]; }
     explicit operator bool() const { return ind != -1; }
-    bool operator==(const Block& rhs) const = default;
-    void destroy() {
-        if (ind == -1)
+    bool operator==(const Block& rhs) const { return ind == rhs.ind; }
+    static void destroy(Block b) {
+        if (b.ind == -1)
             return;
-        free.push_back(ind);
+        free.push_back(b.ind);
     }
 };
 

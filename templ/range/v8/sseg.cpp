@@ -28,12 +28,12 @@ S op(S l, S r) { return l + r; }
 S e() { return Mint{}; }
 struct F {
     Mint b, c;
-    bool operator==(const F& rhs) const = default;
 };
 S apply(F f, S val, int sub) { return f.b * val + Mint{sub} * Mint{f.c}; }
 F comp(F f, F g) { return F{f.b * g.b, f.b * g.c + f.c}; }
 F id() { return F{Mint{1}, Mint{}}; }
-using Seg = seg::SSeg<S, op, e, F, apply, comp, id>;
+bool isid(F f) { return f.b == Mint{1} && f.c == Mint{}; }
+using Seg = seg::SSeg<S, op, e, F, apply, comp, id, isid>;
 
 int main() {
 #ifndef LOCAL

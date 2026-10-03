@@ -12,6 +12,7 @@ template <class T> struct Fenwick {
         for (++i; i <= len; i += (i & -i))
             vals[i] += val;
     }
+    void set(int i, T val) { upd(i, val - query(i, i)); }
     T sum(int r) const {
         T ans{0};
         for (++r; r > 0; r -= (r & -r))

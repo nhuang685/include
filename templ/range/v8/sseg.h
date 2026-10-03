@@ -6,7 +6,8 @@
 #include "templ/internal/block.h"
 
 namespace seg {
-    template <class S, auto op_, auto e, class F, auto apply_, auto comp, auto id, class I = int> struct SSeg {
+    template <class S, auto op_, auto e, class F, auto apply_, auto comp, auto id, auto isid, class I = int>
+    struct SSeg {
       private:
         using UI = std::make_unsigned_t<I>;
         struct Node {
@@ -36,13 +37,14 @@ namespace seg {
             dq(dq, rt, 0, len - 1);
         }
         void set(I i, S val) { rt = set(i, val, rt, 0, len - 1); }
+        void reset(I l, I r) { rt = reset(l, r, rt, 0, len - 1); }
         void upd(I l, I r, F f) { rt = upd(l, r, f, rt, 0, len - 1); }
         S query(I l, I r) { return query(l, r, rt, 0, len - 1); }
 
       private:
-        B rt;
         I n, len;
-        static int sub_size(int l, int r, int li, int ri) { return std::max(0, std::min(ri, r) - std::max(l, li) + 1); }
+        B rt;
+        static int sub_size(I l, I r, I li, I ri) { return std::max<I>(0, std::min(ri, r) - std::max(l, li) + 1); }
         static S op(const S& lhs, const S& rhs, I sub1, I sub2) {
             if constexpr (std::is_invocable_v<decltype(op_), S, S, I, I>)
                 return op_(lhs, rhs, sub1, sub2);
@@ -60,7 +62,7 @@ namespace seg {
             node->d = op(node->ch[0] ? node->ch[0]->d : e(), node->ch[1] ? node->ch[1]->d : e(), sub >> 1, sub >> 1);
         }
         static void push(B node, I sub) {
-            if (node->la == id())
+            if (isid(node->la))
                 return;
             if (!node->ch[0])
                 node->ch[0] = B::make();
@@ -84,6 +86,27 @@ namespace seg {
             } else {
                 node->ch[1] = set(i, val, node->ch[1], mid + 1, ri);
             }
+            pull(node, ri - li + 1);
+            return node;
+        }
+        static void destroy(B node) {
+            if (!node)
+                return;
+            destroy(node->ch[0]);
+            destroy(node->ch[1]);
+            B::destroy(node);
+        }
+        static B reset(I l, I r, B node, I li, I ri) {
+            if (!node || r < li || ri < l)
+                return node;
+            if (l <= li && ri <= r) {
+                destroy(node);
+                return B{};
+            }
+            I mid = (li + ri) / 2;
+            push(node, ri - li + 1);
+            node->ch[0] = reset(l, r, node->ch[0], li, mid);
+            node->ch[1] = reset(l, r, node->ch[1], mid + 1, ri);
             pull(node, ri - li + 1);
             return node;
         }
