@@ -8,7 +8,7 @@ namespace modular {
     using i64 = long long;
     using u64 = unsigned long long;
 
-    template <u32 MOD> constexpr u32 mul(u32 a, u32 b) { return (u64)a * b % MOD; }
+    template <u32 MOD> constexpr u32 mul(u32 a, u32 b) { return (u32)((u64)a * b % MOD); }
     template <u64 MOD> constexpr u64 mul(u64 a, u64 b) {
         return (a * b - (u64)(1.0L * a * b / MOD - 0.5L) * MOD) % MOD;
     }
@@ -19,7 +19,7 @@ namespace modular {
         template <std::unsigned_integral T> constexpr explicit SMint(T v_) : v(v_ % MOD) {}
         template <std::signed_integral T> constexpr explicit SMint(T v_) {
             using V = std::make_signed_t<S>;
-            V val = v_ % (V)MOD;
+            V val = (V)(v_ % (V)MOD);
             if (val < 0)
                 val += (V)MOD;
             v = val;
