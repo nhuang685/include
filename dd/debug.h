@@ -20,7 +20,7 @@ inline void nline() { std::cerr << '\n' << std::flush; }
 
 inline void bar() {
     nline();
-    std::cerr << "--------------------------------------------------------\n" << std::flush;
+    std::cerr << "-------------------------------\n" << std::flush;
     nline();
 }
 
